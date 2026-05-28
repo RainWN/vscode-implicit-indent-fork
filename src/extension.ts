@@ -55,6 +55,10 @@ async function executeIndent(
   // First, wait to acquire the lock before doing anything.
   const releaseLock = await lock.acquire();
   try {
+    if (!editor.document.isDirty) {
+      return;
+    }
+
     // Execute the underlying movement command associated with this command.
     if (moveCommand) {
       await vscode.commands.executeCommand(moveCommand);
